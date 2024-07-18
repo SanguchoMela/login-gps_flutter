@@ -29,8 +29,16 @@ class HomePage extends StatelessWidget {
                       Image.asset('images/mapa.png', height: 350, width: 350),
                       const SizedBox(height: 8),
                       const Paragraph(
-                        'Presiona el boton para ver tu ubicación en tiempo real',
+                        'Presiona el botón para ver tu ubicación en tiempo real',
                       ),
+                      const SizedBox(height: 8), 
+                      StyledButton(
+                        onPressed: () {
+                          //la verdad no sé cómo mostrar la ubicación xd
+                        },
+                        child: const Text('Ver mi ubicación'),
+                      ),
+                      const SizedBox(height: 16), 
                     ],
                   );
                 } else {
@@ -40,7 +48,7 @@ class HomePage extends StatelessWidget {
                       const SizedBox(height: 8),
                       const Header("Firebase Login"),
                       const Paragraph(
-                        'Presiona el boton para iniciar sesión con nosotros',
+                        'Presiona el botón para iniciar sesión con nosotros',
                       ),
                     ],
                   );
@@ -54,6 +62,7 @@ class HomePage extends StatelessWidget {
               endIndent: 8,
               color: Colors.grey,
             ),
+             const SizedBox(height: 10),
             Consumer<ApplicationState>(
               builder: (context, appState, _) => AuthFunc(
                 loggedIn: appState.loggedIn,

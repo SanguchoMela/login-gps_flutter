@@ -15,9 +15,9 @@ class AuthFunc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center( // Centra todo el contenido horizontalmente
+    return Center( 
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Centra los elementos dentro del Row
+        mainAxisAlignment: MainAxisAlignment.center, 
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 24, bottom: 8),
