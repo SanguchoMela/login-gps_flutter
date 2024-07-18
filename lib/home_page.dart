@@ -1,10 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider, PhoneAuthProvider;
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
+import 'gps_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -26,19 +28,14 @@ class HomePage extends StatelessWidget {
                         'Bienvenid@',
                         style: TextStyle(fontSize: 24),
                       ),
-                      Image.asset('images/mapa.png', height: 350, width: 350),
-                      const SizedBox(height: 8),
-                      const Paragraph(
-                        'Presiona el botón para ver tu ubicación en tiempo real',
-                      ),
-                      const SizedBox(height: 8), 
-                      StyledButton(
-                        onPressed: () {
-                          //la verdad no sé cómo mostrar la ubicación xd
-                        },
-                        child: const Text('Ver mi ubicación'),
-                      ),
-                      const SizedBox(height: 16), 
+                      Consumer<ApplicationState>(
+                          builder: (context, appState, _) {
+                        if (appState.loggedIn) {
+                          return const GPSWidget();
+                        } else {
+                          return const Text('');
+                        }
+                      })
                     ],
                   );
                 } else {
@@ -62,7 +59,7 @@ class HomePage extends StatelessWidget {
               endIndent: 8,
               color: Colors.grey,
             ),
-             const SizedBox(height: 10),
+            const SizedBox(height: 10),
             Consumer<ApplicationState>(
               builder: (context, appState, _) => AuthFunc(
                 loggedIn: appState.loggedIn,
