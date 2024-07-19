@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 
 import 'src/widgets.dart';
 
@@ -19,11 +21,40 @@ class GPSWidgetState extends State<GPSWidget> {
   @override
   void initState() {
     super.initState();
-    _mapController = MapController(); // Inicializar _mapController
+    _mapController = MapController();
   }
 
   void _getCurrentLocation() async {
     try {
+      if (!kIsWeb) {
+        // Para dispositivos móviles
+        bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (!serviceEnabled) {
+          setState(() {
+            _locationMessage = "Location services are disabled.";
+          });
+          return;
+        }
+
+        LocationPermission permission = await Geolocator.checkPermission();
+        if (permission == LocationPermission.denied) {
+          permission = await Geolocator.requestPermission();
+          if (permission == LocationPermission.denied) {
+            setState(() {
+              _locationMessage = "Location permissions are denied.";
+            });
+            return;
+          }
+        }
+
+        if (permission == LocationPermission.deniedForever) {
+          setState(() {
+            _locationMessage = "Location permissions are permanently denied.";
+          });
+          return;
+        }
+      }
+
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
@@ -32,23 +63,12 @@ class GPSWidgetState extends State<GPSWidget> {
         _locationMessage =
             "Latitud: ${position.latitude}\nLongitud: ${position.longitude}";
         _currentLocation = LatLng(position.latitude, position.longitude);
-        // Mueve el mapa a la ubicación actual
         _mapController.move(_currentLocation, 15.0);
       });
     } catch (e) {
-      if (e is LocationServiceDisabledException) {
-        setState(() {
-          _locationMessage = "Location services are disabled.";
-        });
-      } else if (e is PermissionDeniedException) {
-        setState(() {
-          _locationMessage = "Location permissions are denied.";
-        });
-      } else {
-        setState(() {
-          _locationMessage = "Failed to get location: $e";
-        });
-      }
+      setState(() {
+        _locationMessage = "Failed to get location: $e";
+      });
     }
   }
 
@@ -57,7 +77,6 @@ class GPSWidgetState extends State<GPSWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        // Mapa
         SizedBox(
           height: 300,
           child: FlutterMap(
@@ -68,20 +87,20 @@ class GPSWidgetState extends State<GPSWidget> {
             ),
             children: [
               TileLayer(
-                urlTemplate:
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: const ['a', 'b', 'c'],
+                urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                subdomains: const [],
+                tileProvider: CancellableNetworkTileProvider(),
               ),
               MarkerLayer(
                 markers: [
                   Marker(
                     point: _currentLocation,
-                    width: 80.0,
-                    height: 80.0,
+                    width: 30.0,
+                    height: 30.0,
                     child: Container(
                       color: Colors.red,
                       child: const Icon(Icons.location_on,
-                          color: Colors.white, size: 40.0),
+                          color: Colors.white, size: 20.0),
                     ),
                   ),
                 ],
@@ -89,17 +108,17 @@ class GPSWidgetState extends State<GPSWidget> {
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         const Paragraph(
           'Presiona el botón para ver tu ubicación en tiempo real',
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         Text(
           _locationMessage,
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 16),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         StyledButton(
           onPressed: _getCurrentLocation,
           child: const Text('Ver mi ubicación'),

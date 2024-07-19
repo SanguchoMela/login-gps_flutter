@@ -48,13 +48,13 @@ final _router = GoRouter(
                   if (state is UserCreated) {
                     user.updateDisplayName(user.email!.split('@')[0]);
                   }
-                  if (!user.emailVerified) {
-                    user.sendEmailVerification();
-                    const snackBar = SnackBar(
-                        content: Text(
-                            'Por favor, verifica tu correo electrónico'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
+                  // if (!user.emailVerified) {
+                  //   user.sendEmailVerification();
+                  //   const snackBar = SnackBar(
+                  //       content:
+                  //           Text('Por favor, verifica tu correo electrónico'));
+                  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  // }
                   context.pushReplacement('/');
                 })),
               ],
@@ -97,12 +97,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Firebase Meetup',
+      title: 'Mi Ubicación',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
               highlightColor: const Color.fromARGB(255, 233, 160, 101),
             ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 183, 152, 58)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 183, 152, 58)),
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
