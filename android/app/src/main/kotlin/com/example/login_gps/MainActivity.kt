@@ -1,4 +1,4 @@
-package com.example.login_firebase_gps_flutter
+package com.example.login_gps
 
 import io.flutter.embedding.android.FlutterActivity
 
