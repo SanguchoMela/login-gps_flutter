@@ -38,6 +38,15 @@ Obtén las dependencias del pubsec.yaml
   flutter pub get
 ```
 
+Vincula un proyecto de Firebase, para generar el archivo `lib/firebase_options.dart` automáticamente. 
+
+```bash
+  flutterfire configure
+```
+
+> [!note]
+> Se sugiere usar `com.example.login_gps` como ID de la aplicación Android (o nombre de paquete) en la configuración para evitar errores en el debug o despliegue en Android.
+
 Inicia el servidor
 
 ```bash
