@@ -16,8 +16,9 @@ Proyecto en Flutter para mostrar la ubicación en tiempo real.
 - Visualizar ubicación en tiempo real
 - Ver perfil
   
-## Herramientas de Desarrollo ⚒️
+## Herramientas de Desarrollo 🧑‍💻
 - Android Studio - Flutter - Firebase - vscode
+  
 [![Tecnologías](https://simpleskill.icons.workers.dev/svg?i=android,flutter,firebase,vscode)](https://skillicons.dev)
 
 ## Instalación ⬇️
