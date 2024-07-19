@@ -8,8 +8,32 @@ Proyecto en Flutter para mostrar la ubicación en tiempo real.
 
 **Android**: [APK's](https://github.com/SanguchoMela/login-gps_flutter/releases/tag/v1)
 
-## Tecnologías ⚒️
-[![Tecnologías](https://simpleskill.icons.workers.dev/svg?i=android,readme,flutter)](https://skillicons.dev)
+## Herramientas de Desarrollo ⚒️
+[![Tecnologías](https://simpleskill.icons.workers.dev/svg?i=android,readme,flutter,firebase,vscode)](https://skillicons.dev)
 ## Instalación ⬇️
+
+  Clona el proyecto
+
+  ```bash
+    git clone 
+  ```
+
+  Go to the project directory
+
+  ```bash
+    cd my-project
+  ```
+
+  Obtén las dependencias del pubsec.yaml
+
+  ```bash
+    flutter pub get
+  ```
+
+  Inicia el servidor
+
+  ```bash
+    flutter run
+  ```
 
 ## Funcionamiento 📷
